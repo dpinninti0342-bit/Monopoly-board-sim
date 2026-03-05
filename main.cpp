@@ -1,0 +1,98 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+struct Space {
+    string name;
+    string color;
+    int cost;
+
+    Space(string n = "", string c = "", int co = 0) {
+        name = n;
+        color = c;
+        cost = co;
+    }
+};
+
+struct Node {
+    Space data;
+    Node* next;
+
+    Node(const Space& s) {
+        data = s;
+        next = nullptr;
+    }
+};
+
+class MonopolyBoard {
+private:
+    Node* head;
+    Node* tail;
+    Node* player;
+    int boardSize;
+    int goPassCount;
+    const int MAX_SPACES = 40;
+
+public:
+    MonopolyBoard() {
+        head = nullptr;
+        tail = nullptr;
+        player = nullptr;
+        boardSize = 0;
+        goPassCount = 0;
+    }
+
+    ~MonopolyBoard() {
+        clear();
+    }
+
+    bool addSpace(const Space& s);
+    int addMany(const vector<Space>& spaces);
+    void movePlayer(int steps);
+    void printFromPlayer(int count) const;
+    bool removeByName(string name);
+    vector<string> findByColor(string color) const;
+    void clear();
+};
+
+bool MonopolyBoard::addSpace(const Space& s) {
+    // TODO
+    return false;
+}
+
+int MonopolyBoard::addMany(const vector<Space>& spaces) {
+    // TODO
+    return 0;
+}
+
+void MonopolyBoard::movePlayer(int steps) {
+    // TODO
+}
+
+void MonopolyBoard::printFromPlayer(int count) const {
+    // TODO
+}
+
+bool MonopolyBoard::removeByName(string name) {
+    // TODO
+    return false;
+}
+
+vector<string> MonopolyBoard::findByColor(string color) const {
+    vector<string> matches;
+    // TODO
+    return matches;
+}
+
+void MonopolyBoard::clear() {
+    // TODO
+}
+
+int main() {
+    MonopolyBoard board;
+
+    cout << "Project setup complete." << endl;
+
+    return 0;
+}
