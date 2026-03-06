@@ -93,13 +93,33 @@ int MonopolyBoard::addMany(const vector<Space>& spaces) {
 }
 
 void MonopolyBoard::movePlayer(int steps) {
-    // TODO
+    if (player == nullptr) {
+        return;
+    }
+
+    for (int i = 0; i < steps; i++) {
+        // if we are on the last node, moving next means we pass GO
+        if (player == tail) {
+            goPassCount++;
+        }
+
+        player = player->next;
+    }
 }
 
 void MonopolyBoard::printFromPlayer(int count) const {
-    // TODO
-}
+    if (player == nullptr) {
+        cout << "Board is empty." << endl;
+        return;
+    }
 
+    Node* temp = player;
+
+    for (int i = 0; i < count; i++) {
+        cout << temp->data.name << " (" << temp->data.color << ", $" << temp->data.cost << ")" << endl;
+        temp = temp->next;
+    }
+}
 bool MonopolyBoard::removeByName(string name) {
     // TODO
     return false;
@@ -112,7 +132,25 @@ vector<string> MonopolyBoard::findByColor(string color) const {
 }
 
 void MonopolyBoard::clear() {
-    // TODO
+    if (head == nullptr) {
+        return;
+    }
+
+    // break the circle so we don't loop forever
+    tail->next = nullptr;
+
+    Node* temp = head;
+    while (temp != nullptr) {
+        Node* nextNode = temp->next;
+        delete temp;
+        temp = nextNode;
+    }
+
+    head = nullptr;
+    tail = nullptr;
+    player = nullptr;
+    boardSize = 0;
+    goPassCount = 0;
 }
 
 int main() {
