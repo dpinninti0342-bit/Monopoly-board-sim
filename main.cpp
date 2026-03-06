@@ -57,13 +57,39 @@ public:
 };
 
 bool MonopolyBoard::addSpace(const Space& s) {
-    // TODO
-    return false;
-}
+    if (boardSize == MAX_SPACES) {
+        return false;
+    }
 
+    Node* temp = new Node(s);
+
+    // if this is the first space
+    if (head == nullptr) {
+        head = temp;
+        tail = temp;
+        player = temp;
+        temp->next = temp;
+    } else {
+        tail->next = temp;
+        temp->next = head;
+        tail = temp;
+    }
+
+    boardSize++;
+    return true;
+}
 int MonopolyBoard::addMany(const vector<Space>& spaces) {
-    // TODO
-    return 0;
+    int count = 0;
+
+    for (int i = 0; i < spaces.size(); i++) {
+        if (addSpace(spaces[i])) {
+            count++;
+        } else {
+            break;
+        }
+    }
+
+    return count;
 }
 
 void MonopolyBoard::movePlayer(int steps) {
