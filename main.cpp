@@ -121,13 +121,80 @@ void MonopolyBoard::printFromPlayer(int count) const {
     }
 }
 bool MonopolyBoard::removeByName(string name) {
-    // TODO
-    return false;
+    // if board is empty
+    if (head == nullptr) {
+        return false;
+    }
+
+    Node* cur = head;
+    Node* prev = tail; // in a circle, tail is right before head
+
+    // go around the circle once
+    do {
+        if (cur->data.name == name) {
+
+            if (boardSize == 1) {
+                delete cur;
+                head = nullptr;
+                tail = nullptr;
+                player = nullptr;
+                boardSize = 0;
+                return true;
+            }
+
+            // if player is standing on the one we delete, move player forward
+            if (player == cur) {
+                player = cur->next;
+            }
+
+            // remove cur from the circle
+            prev->next = cur->next;
+
+            // if we delete head, move head
+            if (cur == head) {
+                head = cur->next;
+            }
+
+            // if we delete tail, move tail back
+            if (cur == tail) {
+                tail = prev;
+            }
+
+            delete cur;
+            boardSize--;
+
+            // make sure tail points to head (keeps circle correct)
+            tail->next = head;
+
+            return true;
+        }
+
+        prev = cur;
+        cur = cur->next;
+
+    } while (cur != head);
+
+    return false; // not found
 }
 
 vector<string> MonopolyBoard::findByColor(string color) const {
     vector<string> matches;
-    // TODO
+
+    // if board is empty
+    if (head == nullptr) {
+        return matches;
+    }
+
+    Node* temp = head;
+
+    // go around the circle one time
+    do {
+        if (temp->data.color == color) {
+            matches.push_back(temp->data.name);
+        }
+        temp = temp->next;
+    } while (temp != head);
+
     return matches;
 }
 
