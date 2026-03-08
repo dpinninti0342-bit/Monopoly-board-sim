@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 struct Space {
@@ -54,6 +56,10 @@ public:
     bool removeByName(string name);
     vector<string> findByColor(string color) const;
     void clear();
+
+    int getGoPassCount() {
+        return goPassCount;
+    }
 };
 
 bool MonopolyBoard::addSpace(const Space& s) {
@@ -116,7 +122,7 @@ void MonopolyBoard::printFromPlayer(int count) const {
     Node* temp = player;
 
     for (int i = 0; i < count; i++) {
-        cout << temp->data.name << " (" << temp->data.color << ", $" << temp->data.cost << ")" << endl;
+        cout << temp->data.name << " (" << temp->data.color << ")" << endl;
         temp = temp->next;
     }
 }
@@ -223,7 +229,41 @@ void MonopolyBoard::clear() {
 int main() {
     MonopolyBoard board;
 
-    cout << "Project setup complete." << endl;
+    // make some spaces for the board
+    vector<Space> spaces;
+
+    spaces.push_back(Space("GO", "Go", 0));
+
+    for (int i = 1; i < 40; i++) {
+        string name = "Space " + to_string(i);
+
+        string color;
+        if (i % 4 == 0) color = "Red";
+        else if (i % 4 == 1) color = "Blue";
+        else if (i % 4 == 2) color = "Green";
+        else color = "Yellow";
+
+        spaces.push_back(Space(name, color, i * 10));
+    }
+
+    int added = board.addMany(spaces);
+    cout << "Spaces added: " << added << endl;
+    // start random dice
+    srand(time(0));
+
+    // simulate 10 turns
+    for (int turn = 1; turn <= 10; turn++) {
+        int roll = (rand() % 11) + 2; // gives 2 to 12
+
+        cout << "\nTurn " << turn << " rolled: " << roll << endl;
+
+        board.movePlayer(roll);
+
+        cout << "Landed on: ";
+        board.printFromPlayer(1);
+
+        cout << "Passed GO: " << board.getGoPassCount() << endl;
+    }
 
     return 0;
 }
