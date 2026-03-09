@@ -40,6 +40,9 @@ findByColor(string color) const: traverses once and returns matching names.
 
 clear(): deletes all nodes safely by breaking the circle first.
 
+## Advanced Features
+Advanced features implemented: removeByName and findByColor.
+
 ## Traversal / Passing GO
 Movement follows next pointers for each step. Passing GO is counted when moving from tail back to head.
 
