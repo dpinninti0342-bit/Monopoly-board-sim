@@ -263,6 +263,7 @@ int main() {
         board.printFromPlayer(1);
 
         cout << "Passed GO: " << board.getGoPassCount() << endl;
+        cout << "------------------------" << endl;
     }
 
     return 0;
